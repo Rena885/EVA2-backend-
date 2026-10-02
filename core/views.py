@@ -64,6 +64,10 @@ def login_view(request):
             return redirect('catalogo')
     else:
         form = AuthenticationForm()
+        
+    form.fields['username'].label = "Correo Electrónico"
+    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email'})
+        
     return render(request, 'auth/login.html', {'form': form})
 
 def register_view(request):
@@ -71,10 +75,17 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.email = user.username
+            user.save()
             login(request, user)
             return redirect('catalogo')
     else:
         form = UserCreationForm()
+        
+    form.fields['username'].label = "Correo Electrónico"
+    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email'})
+    form.fields['username'].help_text = "Requerido. Úsalo para iniciar sesión."
+        
     return render(request, 'auth/register.html', {'form': form})
 
 # PANEL DE COORDINADOR

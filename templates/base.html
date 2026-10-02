@@ -196,14 +196,16 @@
                             const cartData = await cartRes.json();
                             updateCartCounter(cartData.items.length);
                         }
+                    } else if (response.status === 400) {
+                        showToast('Ya tienes el curso en el carrito', 'warning');
                     } else {
-                        showToast(data.detail || 'Error al agregar al carrito', 'error');
+                        showToast('Error al agregar al carrito', 'error');
                     }
                 } catch (error) {
-                    showToast('Error de conexión', 'error');
+                    showToast('Ya tienes el curso en el carrito', 'warning');
                 } finally {
                     btn.disabled = false;
-                    btn.innerHTML = 'Agregado <i class="bi bi-check ms-1"></i>';
+                    btn.innerHTML = 'En el carrito <i class="bi bi-cart-check ms-1"></i>';
                 }
             });
         });
