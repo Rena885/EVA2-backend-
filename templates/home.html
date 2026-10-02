@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<!-- Hero Section -->
+<div class="position-relative text-center d-flex flex-column justify-content-center align-items-center" style="min-height: 85vh; background: url('https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80') center/cover; position: relative;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(11, 36, 71, 0.85);"></div>
+    <div class="position-relative z-1 container text-white py-5">
+        <h1 class="display-3 fw-bold mb-4 text-uppercase" style="letter-spacing: -1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Aprende lo último en IA y Tecnología<br>con Clases Online en Vivo</h1>
+        <p class="lead mb-5 fw-medium mx-auto" style="max-width: 750px;">Clases en vivo con expertos de la industria, proyectos prácticos, tutor IA integrado y una comunidad que te acompaña para crecer profesionalmente.</p>
+        <a href="{% url 'catalogo' %}" class="btn btn-accent btn-lg px-5 py-3 rounded-pill fw-bold fs-5 shadow-lg mb-3">Inscribirme ahora</a>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="container-fluid bg-light py-5 overflow-hidden">
+    <div class="py-5">
+        <h2 class="fw-bold mb-5 text-center px-3" style="color: var(--primary); max-width: 900px; margin: 0 auto;">Únete a la comunidad de aprendizaje online en vivo más grande de Latinoamérica, con más de 500 mil graduados</h2>
+        
+        <!-- Marquee Testimonials -->
+        <div class="marquee-wrapper mb-5">
+            <div class="marquee-track">
+                <!-- We duplicate the set of cards twice (Group 1 and Group 2) to create the seamless infinite scroll -->
+                
+                <!-- GROUP 1 -->
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=11" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Carlos Daniel Arias</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Introducción a la IA</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Introducción a la IA profundicé en sus fundamentos, su impacto en el mercado y cómo estas tecnologías transforman la automatización y optimización de procesos.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Inteligencia Artificial</span>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=12" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Ivo Vildoza</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Backend</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Backend consolidé el desarrollo del lado del servidor. Como proyecto final creé una API completa con Node.js, Express y MongoDB.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Programación y Desarrollo</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=5" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Candela Murad</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Diseño UX/UI</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">Terminé mi curso de Diseño UX/UI y no puedo estar más feliz. Tenía muchas ganas de meterme en el mundo de las apps y la tecnología, se me abrió un mundo de posibilidades.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Diseño UX/UI</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=9" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Ayelén Elvira Suárez</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Desarrollo Web</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Desarrollo Web profundicé en Front-end con foco en diseño y experiencia de usuario. Aprendí a maquetar proyectos desde cero combinando lógica y estética visual.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Programación</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=33" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Martín González</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Data Analytics</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">Aprender Excel avanzado y SQL me permitió estructurar el análisis de datos de otra forma. Hoy puedo automatizar reportes diarios con dashboards claros.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Data</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=47" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Sofía Reyes</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Product Management</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">El bootcamp me dio las herramientas metodológicas para liderar equipos ágiles. Aprendí a hacer roadmaps reales y a priorizar el backlog con impacto al negocio.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Producto</span>
+                    </div>
+                </div>
+
+                <!-- GROUP 2 (DUPLICATE EXACTLY FOR INFINITE SCROLL) -->
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=11" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Carlos Daniel Arias</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Introducción a la IA</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Introducción a la IA profundicé en sus fundamentos, su impacto en el mercado y cómo estas tecnologías transforman la automatización y optimización de procesos.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Inteligencia Artificial</span>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=12" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Ivo Vildoza</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Backend</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Backend consolidé el desarrollo del lado del servidor. Como proyecto final creé una API completa con Node.js, Express y MongoDB.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Programación y Desarrollo</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=5" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Candela Murad</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Diseño UX/UI</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">Terminé mi curso de Diseño UX/UI y no puedo estar más feliz. Tenía muchas ganas de meterme en el mundo de las apps y la tecnología, se me abrió un mundo de posibilidades.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Diseño UX/UI</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=9" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Ayelén Elvira Suárez</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Desarrollo Web</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">En Desarrollo Web profundicé en Front-end con foco en diseño y experiencia de usuario. Aprendí a maquetar proyectos desde cero combinando lógica y estética visual.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Programación</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=33" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Martín González</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Data Analytics</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">Aprender Excel avanzado y SQL me permitió estructurar el análisis de datos de otra forma. Hoy puedo automatizar reportes diarios con dashboards claros.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Data</span>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 text-start p-3 bg-white testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://i.pravatar.cc/150?img=47" class="rounded-circle me-3" width="45" height="45" alt="User">
+                        <div>
+                            <h6 class="fw-bold mb-0">Sofía Reyes</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;">Curso de Product Management</small>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-4">El bootcamp me dio las herramientas metodológicas para liderar equipos ágiles. Aprendí a hacer roadmaps reales y a priorizar el backlog con impacto al negocio.</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-light text-dark border rounded-pill">Producto</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <p class="text-muted mb-4 mt-5 pt-3 small fw-semibold text-uppercase letter-spacing-1 text-center">Nuestros graduados ya trabajan en empresas líderes</p>
+        
+        <!-- Marquee Companies -->
+        <div class="marquee-wrapper" style="opacity: 0.6; filter: grayscale(100%);">
+            <div class="marquee-track" style="animation-duration: 25s; animation-direction: reverse;">
+                <!-- GROUP 1 -->
+                <div class="company-logo"><h3 class="fw-bold m-0" style="font-family: serif;">BBVA</h3></div>
+                <div class="company-logo"><h3 class="fw-light m-0 fst-italic">falabella.</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Santander</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">amazon</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Globant <i class="bi bi-caret-right-fill"></i></h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0 text-danger">SODIMAC</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Accenture</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0 fst-italic">Rappi</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">PedidosYa</h3></div>
+                
+                <!-- GROUP 2 -->
+                <div class="company-logo"><h3 class="fw-bold m-0" style="font-family: serif;">BBVA</h3></div>
+                <div class="company-logo"><h3 class="fw-light m-0 fst-italic">falabella.</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Santander</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">amazon</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Globant <i class="bi bi-caret-right-fill"></i></h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0 text-danger">SODIMAC</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">Accenture</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0 fst-italic">Rappi</h3></div>
+                <div class="company-logo"><h3 class="fw-bold m-0">PedidosYa</h3></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Formats Section -->
+<div class="container-fluid bg-white py-5">
+    <div class="container text-center py-5">
+        <span class="badge border border-secondary text-secondary rounded-pill px-3 py-2 mb-4 letter-spacing-1 fw-bold" style="letter-spacing: 2px;">¿POR DÓNDE EMPIEZO?</span>
+        <h2 class="display-5 fw-bold mb-4" style="color: var(--primary);">Encuentra el formato perfecto para ti</h2>
+        <p class="lead text-muted mb-5 mx-auto" style="max-width: 600px;">Cada formato resuelve un objetivo distinto. Empieza por el que mejor se adapte a lo que quieres lograr y entra directo al catálogo.</p>
+        
+        <div class="mt-4">
+             <a href="{% url 'catalogo' %}" class="btn btn-dark btn-lg px-5 py-3 rounded-pill fw-bold mx-2 shadow-sm">Ver Carreras & Bootcamps</a>
+             <a href="{% url 'catalogo' %}" class="btn btn-outline-custom btn-lg px-5 py-3 rounded-pill fw-bold mx-2">Ver Cursos Relámpago</a>
+        </div>
+    </div>
+</div>
+
+<!-- Methodology -->
+<div class="container py-5 mt-4">
+    <div class="text-center mb-5 pb-4">
+        <span class="badge border border-secondary text-secondary rounded-pill px-3 py-2 mb-4 fw-bold" style="letter-spacing: 2px;">METODOLOGÍA</span>
+        <h2 class="display-5 fw-bold" style="color: var(--primary);">Una forma de aprender pensada<br>para que llegues hasta el final</h2>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border border-light shadow-sm rounded-5 overflow-hidden bg-white">
+                <div class="row g-0 align-items-center">
+                    <div class="col-md-5 p-5">
+                        <h2 class="fw-bold mb-4" style="color: var(--primary);">Clases en vivo</h2>
+                        <p class="text-muted fs-5">Aprende en vivo con profesores que trabajan en lo que enseñan. Repasa conceptos, haz tus preguntas y llévate ejemplos reales en cada clase.</p>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" class="img-fluid w-100 h-100 object-fit-cover" style="min-height: 350px;" alt="Clases en vivo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-5 pb-5">
+        <div class="col-12">
+            <div class="card border border-light shadow-sm rounded-5 overflow-hidden bg-white">
+                <div class="row g-0 align-items-center flex-row-reverse">
+                    <div class="col-md-5 p-5">
+                        <h2 class="fw-bold mb-4" style="color: var(--primary);">Práctica con entregas y un proyecto final</h2>
+                        <p class="text-muted fs-5">Avanza a tu propio ritmo entregando desafíos prácticos corregidos por mentores. Completa tu curso con un proyecto real que te servirá de portafolio para buscar empleo.</p>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=800" class="img-fluid w-100 h-100 object-fit-cover" style="min-height: 350px;" alt="Práctica">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

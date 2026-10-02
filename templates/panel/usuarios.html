@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse border-end vh-100 py-4">
+            <div class="position-sticky">
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                    <span>Admin Panel</span>
+                </h6>
+                <ul class="nav flex-column mb-auto mt-3">
+                    <li class="nav-item">
+                        <a href="{% url 'panel' %}" class="nav-link text-dark">
+                            <i class="bi bi-book me-2"></i> Gestión de Cursos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'panel_usuarios' %}" class="nav-link active fw-bold" style="color: var(--primary);">
+                            <i class="bi bi-people-fill me-2"></i> Usuarios Registrados
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-5 bg-light" style="min-height: 100vh;">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                <h1 class="h2 fw-bold" style="color: var(--primary);">Usuarios Registrados</h1>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Usuarios List -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                    <h5 class="fw-bold mb-0">Listado de Cuentas</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light text-muted small text-uppercase letter-spacing-1">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Rol (Perfil)</th>
+                                    <th>Fecha de Registro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in usuarios %}
+                                <tr>
+                                    <td class="fw-bold text-muted">#{{ u.id }}</td>
+                                    <td class="fw-bold">{{ u.username }}</td>
+                                    <td>{{ u.email|default:"<span class='text-muted fst-italic'>Sin email</span>"|safe }}</td>
+                                    <td>
+                                        {% if u.perfil.rol == 'COORDINADOR' %}
+                                            <span class="badge bg-primary rounded-pill px-3 py-2">Coordinador</span>
+                                        {% else %}
+                                            <span class="badge bg-success rounded-pill px-3 py-2">Estudiante</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-muted small">{{ u.date_joined|date:"d M Y, H:i" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <i class="bi bi-people display-4 d-block mb-3"></i>
+                                        No hay usuarios registrados aún.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

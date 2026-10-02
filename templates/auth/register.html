@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Registro - ticketRB{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold">Crea tu cuenta</h3>
+                    <p class="text-muted">Únete a la plataforma líder en EdTech</p>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3 text-start">
+                            <label class="form-label fw-bold text-muted small">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text small lh-sm mt-1">{{ field.help_text|safe }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-accent w-100 py-2 fw-bold mt-3">Registrarme</button>
+                </form>
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="text-muted small">¿Ya tienes cuenta? <a href="{% url 'login' %}" class="fw-bold text-dark text-decoration-none">Ingresa aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .form-text ul { padding-left: 1.2rem; margin-bottom: 0; }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            if(el.type !== 'checkbox' && el.type !== 'hidden') {
+                el.classList.add('form-control');
+            }
+            if(el.type === 'checkbox') {
+                el.classList.add('form-check-input');
+            }
+        });
+    });
+</script>
+{% endblock %}

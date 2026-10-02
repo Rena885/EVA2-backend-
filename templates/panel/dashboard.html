@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Panel Admin - ticketRB{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="fw-bold m-0">Panel de Coordinación</h2>
+            <p class="text-muted mb-0">Gestión de cursos y matrículas</p>
+        </div>
+        <div>
+            <a href="{% url 'panel_usuarios' %}" class="btn btn-outline-primary me-2"><i class="bi bi-people me-2"></i>Usuarios</a>
+            <a href="{% url 'panel_curso_crear' %}" class="btn btn-dark"><i class="bi bi-plus-circle me-2"></i>Nuevo Curso</a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="bg-white p-4 rounded-4 shadow-sm border-start border-primary border-4">
+                <div class="text-muted small fw-bold mb-1">TOTAL CURSOS</div>
+                <h3 class="fw-bold m-0">{{ cursos.count }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="bg-white p-4 rounded-4 shadow-sm border-start border-success border-4">
+                <div class="text-muted small fw-bold mb-1">MATRÍCULAS PAGADAS</div>
+                <h3 class="fw-bold m-0">{{ matriculas.count }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold text-dark" id="cursos-tab" data-bs-toggle="tab" data-bs-target="#cursos" type="button" role="tab">Gestión de Cursos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold text-dark" id="matriculas-tab" data-bs-toggle="tab" data-bs-target="#matriculas" type="button" role="tab">Matrículas Recientes</button>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" id="adminTabsContent">
+        <div class="tab-pane fade show active" id="cursos" role="tabpanel">
+            <div class="bg-white rounded-4 shadow-sm overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle m-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Curso</th>
+                                <th>Tipo</th>
+                                <th>Cupos</th>
+                                <th>Precio Final</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in cursos %}
+                            <tr>
+                                <td class="text-muted">#{{ c.id }}</td>
+                                <td><span class="fw-semibold">{{ c.titulo }}</span><br><small class="text-muted">{{ c.area.nombre }}</small></td>
+                                <td>
+                                    {% if c.tipo == 'CARRERA' %}
+                                    <span class="badge bg-light text-dark border"><i class="bi bi-star-fill text-warning"></i> Bootcamp</span>
+                                    {% else %}
+                                    <span class="badge bg-warning text-dark border border-warning"><i class="bi bi-lightning-fill"></i> Relámpago</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; width: 80px;" title="{{ c.cupos_disponibles }} / {{ c.cupos_totales }}">
+                                        {% widthratio c.cupos_disponibles c.cupos_totales 100 as pct %}
+                                        <div class="progress-bar {% if pct|add:0 < 20 %}bg-danger{% else %}bg-success{% endif %}" style="width: {{ pct }}%"></div>
+                                    </div>
+                                    <small class="text-muted">{{ c.cupos_disponibles }}/{{ c.cupos_totales }}</small>
+                                </td>
+                                <td class="fw-bold">${{ c.precio_final|intcomma }}</td>
+                                <td class="text-end">
+                                    <a href="{% url 'panel_curso_editar' c.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'panel_curso_eliminar' c.id %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-pane fade" id="matriculas" role="tabpanel">
+            <div class="bg-white rounded-4 shadow-sm overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle m-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Transacción</th>
+                                <th>Usuario</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in matriculas %}
+                            <tr>
+                                <td class="fw-bold">#{{ m.id }}</td>
+                                <td>{{ m.user.username }}</td>
+                                <td>{{ m.fecha|date:"d M Y, H:i" }}</td>
+                                <td class="fw-semibold">${{ m.costo_total|intcomma }}</td>
+                                <td>
+                                    {% if m.estado == 'PAGADO' %}
+                                        <span class="badge bg-success">Pagado</span>
+                                    {% elif m.estado == 'CANCELADO' %}
+                                        <span class="badge bg-danger">Cancelado</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Pendiente</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if m.estado != 'CANCELADO' %}
+                                    <button class="btn btn-sm btn-outline-danger btn-cancel-matricula" data-id="{{ m.id }}" title="Cancelar y reponer cupos">
+                                        <i class="bi bi-x-circle"></i> Cancelar
+                                    </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if not matriculas %}
+                            <tr><td colspan="6" class="text-center py-4 text-muted">No hay matrículas registradas.</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    document.querySelectorAll('.btn-cancel-matricula').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            if(!confirm('¿Estás seguro de cancelar esta matrícula? Los cupos serán repuestos automáticamente.')) return;
+            
+            const mId = e.target.closest('button').dataset.id;
+            try {
+                const res = await fetch(`/api/matriculas/${mId}/cancelar/`, {
+                    method: 'POST',
+                    headers: {'X-CSRFToken': csrfToken}
+                });
+                const data = await res.json();
+                
+                if(res.ok) {
+                    showToast('Matrícula cancelada correctamente', 'success');
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    showToast(data.detail || 'Error al cancelar', 'error');
+                }
+            } catch(e) {
+                showToast('Error de red', 'error');
+            }
+        });
+    });
+</script>
+{% endblock %}
