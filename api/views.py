@@ -60,7 +60,7 @@ def checkout(request):
                 # Select for update para prevenir condiciones de carrera
                 curso = Curso.objects.select_for_update().get(id=item.curso.id)
                 if curso.cupos_disponibles <= 0:
-                    raise ValueError(f'No hay cupos disponibles para: {curso.titulo}')
+                    raise ValueError(f'¡Atención! El curso "{curso.titulo}" que deseas en el carrito ya no está disponible debido a compras de otros clientes.')
                 costo_total += curso.precio_final
             
             # Crear matrícula

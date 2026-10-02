@@ -60,6 +60,8 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             if user.perfil.rol == 'COORDINADOR':
+                # Cierre de sesión por inactividad de 3 minutos
+                request.session.set_expiry(180)
                 return redirect('panel')
             return redirect('catalogo')
     else:
