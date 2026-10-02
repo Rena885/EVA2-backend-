@@ -11,6 +11,8 @@ urlpatterns = [
     
     # Vistas UI
     path('', views.home, name='home'),
+    path('recursos/', views.recursos_view, name='recursos'),
+    path('metodologia/', views.metodologia_view, name='metodologia'),
     path('cursos/', views.catalogo, name='catalogo'),
     path('cursos/<int:pk>/', views.curso_detalle, name='curso_detalle'),
     path('carro/', views.carro_view, name='carro'),

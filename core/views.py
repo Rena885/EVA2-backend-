@@ -10,6 +10,12 @@ from django.contrib import messages
 def home(request):
     return render(request, 'home.html')
 
+def recursos_view(request):
+    return render(request, 'recursos.html')
+
+def metodologia_view(request):
+    return render(request, 'metodologia.html')
+
 def catalogo(request):
     area_id = request.GET.get('area')
     q = request.GET.get('q')

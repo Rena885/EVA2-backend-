@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% block title %}Recursos Gratuitos - ticketRB{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-dark text-white py-5 mb-5" style="background-color: var(--primary) !important;">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-3">Acelera tu carrera <span style="color: var(--accent);">sin costo</span></h1>
+        <p class="lead text-white-50 mx-auto" style="max-width: 700px;">
+            Accede a nuestra biblioteca de conocimientos abiertos. Diseñado por expertos de la industria para que des el primer paso en tu nueva profesión.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    
+    <!-- Sección 1: Webinars Grabados -->
+    <div class="mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <i class="bi bi-play-btn-fill fs-3 me-2" style="color: var(--accent);"></i>
+            <h3 class="fw-bold m-0 text-dark">Webinars Grabados</h3>
+        </div>
+        <div class="row g-4">
+            <!-- Webinar 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Webinar Data">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <span class="badge bg-light text-dark mb-2 align-self-start"><i class="bi bi-calendar3"></i> Hace 1 semana</span>
+                        <h5 class="fw-bold">El futuro del Data Science en IA</h5>
+                        <p class="text-muted small flex-grow-1">Descubre cómo los LLMs están cambiando la forma en que analizamos grandes volúmenes de datos.</p>
+                        <button class="btn btn-dark w-100 rounded-pill fw-bold open-lead-modal" data-recurso="Webinar: Data Science en IA">
+                            Ver Webinar <i class="bi bi-play-circle ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Webinar 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Webinar UX">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <span class="badge bg-light text-dark mb-2 align-self-start"><i class="bi bi-calendar3"></i> Hace 2 semanas</span>
+                        <h5 class="fw-bold">Creando Portafolios UX que impactan</h5>
+                        <p class="text-muted small flex-grow-1">Aprende qué miran los reclutadores en un portafolio de Diseño UX/UI antes de contratarte.</p>
+                        <button class="btn btn-dark w-100 rounded-pill fw-bold open-lead-modal" data-recurso="Webinar: Portafolio UX">
+                            Ver Webinar <i class="bi bi-play-circle ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Webinar 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Webinar Dev">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <span class="badge bg-light text-dark mb-2 align-self-start"><i class="bi bi-calendar3"></i> Hace 1 mes</span>
+                        <h5 class="fw-bold">Ruta Frontend 2026: ¿Qué aprender?</h5>
+                        <p class="text-muted small flex-grow-1">React, Vue, Svelte... Te guiamos paso a paso sobre qué stack técnico dominar este año.</p>
+                        <button class="btn btn-dark w-100 rounded-pill fw-bold open-lead-modal" data-recurso="Webinar: Ruta Frontend 2026">
+                            Ver Webinar <i class="bi bi-play-circle ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="text-muted mb-5">
+
+    <!-- Sección 2: Guías Descargables -->
+    <div class="mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <i class="bi bi-file-earmark-pdf-fill fs-3 me-2" style="color: var(--accent);"></i>
+            <h3 class="fw-bold m-0 text-dark">Guías Descargables (PDF)</h3>
+        </div>
+        <div class="row g-4">
+            <!-- Guía 1 -->
+            <div class="col-md-6">
+                <div class="card border border-light shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
+                    <div class="bg-danger bg-opacity-10 rounded-3 p-3 text-danger me-4">
+                        <i class="bi bi-filetype-pdf fs-1"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="fw-bold mb-1">Guía Definitiva de Git y GitHub</h5>
+                        <p class="text-muted small mb-2">Comandos esenciales, resolución de conflictos y buenas prácticas.</p>
+                        <button class="btn btn-sm btn-outline-dark fw-bold rounded-pill open-lead-modal" data-recurso="PDF: Guía de Git">
+                            Descargar Gratis <i class="bi bi-download ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Guía 2 -->
+            <div class="col-md-6">
+                <div class="card border border-light shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3 text-primary me-4">
+                        <i class="bi bi-filetype-pdf fs-1"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="fw-bold mb-1">Cheat Sheet de Python Avanzado</h5>
+                        <p class="text-muted small mb-2">Decoradores, generadores y manejo de memoria en una sola hoja.</p>
+                        <button class="btn btn-sm btn-outline-dark fw-bold rounded-pill open-lead-modal" data-recurso="PDF: Python Cheat Sheet">
+                            Descargar Gratis <i class="bi bi-download ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="text-muted mb-5">
+
+    <!-- Sección 3: Minicursos -->
+    <div class="mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <i class="bi bi-lightning-charge-fill fs-3 me-2" style="color: var(--accent);"></i>
+            <h3 class="fw-bold m-0 text-dark">Minicursos de Introducción</h3>
+        </div>
+        <div class="row g-4">
+            <!-- Minicurso 1 -->
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-1">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-4">
+                            <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bfce8?auto=format&fit=crop&w=400&q=80" class="img-fluid rounded-4 h-100 object-fit-cover" alt="Minicurso HTML">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <span class="badge bg-accent bg-opacity-10 text-accent mb-2">15 Minutos</span>
+                                <h5 class="fw-bold">Hola Mundo en HTML y CSS</h5>
+                                <p class="text-muted small">Crea tu primera página web estática desde cero sin conocimientos previos.</p>
+                                <button class="btn btn-accent btn-sm px-4 fw-bold rounded-pill open-lead-modal" data-recurso="Minicurso: Hola Mundo HTML">
+                                    Empezar Gratis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Minicurso 2 -->
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-1">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-4">
+                            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=400&q=80" class="img-fluid rounded-4 h-100 object-fit-cover" alt="Minicurso JS">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <span class="badge bg-accent bg-opacity-10 text-accent mb-2">20 Minutos</span>
+                                <h5 class="fw-bold">Lógica de Programación Básico</h5>
+                                <p class="text-muted small">Entiende qué es una variable, un ciclo y una función usando Javascript.</p>
+                                <button class="btn btn-accent btn-sm px-4 fw-bold rounded-pill open-lead-modal" data-recurso="Minicurso: Lógica Programación">
+                                    Empezar Gratis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Formulario Leads -->
+<div class="modal fade" id="leadModal" tabindex="-1" aria-labelledby="leadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title fw-bold" id="leadModalLabel">¡Desbloquea tu recurso!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p class="text-muted small mb-4">Ingresa tus datos para enviarte "<strong id="recursoNameDisplay" class="text-dark"></strong>" directamente a tu bandeja de entrada.</p>
+        <form id="leadForm" action="javascript:void(0);">
+            <div class="mb-3">
+                <label class="form-label fw-semibold small">Nombre completo</label>
+                <input type="text" class="form-control bg-light border-0 py-2" required placeholder="Ej: Juan Pérez">
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold small">Correo electrónico</label>
+                <input type="email" class="form-control bg-light border-0 py-2" required placeholder="tu@email.com">
+            </div>
+            <button type="submit" class="btn btn-accent w-100 py-3 fw-bold rounded-3">Enviar y Desbloquear <i class="bi bi-unlock-fill ms-1"></i></button>
+            <p class="text-center text-muted mt-3 mb-0" style="font-size: 0.7rem;"><i class="bi bi-shield-lock"></i> Nunca enviaremos spam. Puedes desuscribirte en cualquier momento.</p>
+        </form>
+        <div id="leadSuccess" class="text-center py-4 d-none">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+            <h4 class="fw-bold mt-3">¡Recurso enviado!</h4>
+            <p class="text-muted">Revisa tu correo electrónico en los próximos minutos.</p>
+            <button type="button" class="btn btn-outline-dark mt-2" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = new bootstrap.Modal(document.getElementById('leadModal'));
+        const form = document.getElementById('leadForm');
+        const successView = document.getElementById('leadSuccess');
+        const recursoDisplay = document.getElementById('recursoNameDisplay');
+
+        // Abrir modal y capturar nombre del recurso
+        document.querySelectorAll('.open-lead-modal').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const recurso = e.target.closest('button').dataset.recurso;
+                recursoDisplay.textContent = recurso;
+                form.classList.remove('d-none');
+                successView.classList.add('d-none');
+                form.reset();
+                modal.show();
+            });
+        });
+
+        // Simular envío (Generación de Lead)
+        form.addEventListener('submit', () => {
+            const btn = form.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Procesando...';
+            
+            // Simular delay de servidor
+            setTimeout(() => {
+                form.classList.add('d-none');
+                successView.classList.remove('d-none');
+                btn.disabled = false;
+                btn.innerHTML = 'Enviar y Desbloquear <i class="bi bi-unlock-fill ms-1"></i>';
+            }, 1200);
+        });
+    });
+</script>
+{% endblock %}
