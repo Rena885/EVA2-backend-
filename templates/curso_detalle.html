@@ -95,11 +95,17 @@
                     <ul class="list-unstyled mb-4 text-muted small">
                         <li class="mb-3 d-flex justify-content-between border-bottom pb-2">
                             <span><i class="bi bi-people-fill me-2"></i> Cupos Totales</span>
-                            <span class="fw-bold text-dark">{{ curso.cupos_totales }}</span>
+                            {% if curso.tipo == 'RELAMPAGO' %}
+                                <span class="fw-bold text-dark">Ilimitados</span>
+                            {% else %}
+                                <span class="fw-bold text-dark">{{ curso.cupos_totales }}</span>
+                            {% endif %}
                         </li>
                         <li class="mb-3 d-flex justify-content-between border-bottom pb-2">
                             <span><i class="bi bi-person-check-fill me-2"></i> Cupos Disponibles</span>
-                            {% if curso.cupos_disponibles > 0 %}
+                            {% if curso.tipo == 'RELAMPAGO' %}
+                                <span class="fw-bold text-success">Ilimitados</span>
+                            {% elif curso.cupos_disponibles > 0 %}
                                 <span class="fw-bold text-success">{{ curso.cupos_disponibles }}</span>
                             {% else %}
                                 <span class="fw-bold text-danger">Agotado</span>
@@ -107,7 +113,7 @@
                         </li>
                     </ul>
                     
-                    {% if curso.cupos_disponibles > 0 %}
+                    {% if curso.tipo == 'RELAMPAGO' or curso.cupos_disponibles > 0 %}
                         <form method="POST" action="javascript:void(0);" class="d-grid mb-3">
                             {% csrf_token %}
                             <button type="button" class="btn btn-accent py-3 fw-bold add-to-cart-btn fs-5" data-course-id="{{ curso.id }}">

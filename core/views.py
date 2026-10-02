@@ -65,29 +65,22 @@ def login_view(request):
     else:
         form = AuthenticationForm()
         
-    form.fields['username'].label = "Correo Electrónico"
-    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email'})
+    form.fields['username'].label = "Nombre de usuario"
+    form.fields['username'].widget.attrs.update({'placeholder': 'tu_usuario', 'autofocus': True})
         
     return render(request, 'auth/login.html', {'form': form})
 
 def register_view(request):
+    from .forms import RegistroUsuarioForm
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.email = user.username
-            user.save()
-            # Crear perfil automáticamente
-            from core.models import PerfilUsuario
-            PerfilUsuario.objects.create(user=user, rol='ESTUDIANTE')
+            # El perfil se crea automáticamente a través de las señales (core/signals.py)
             login(request, user)
             return redirect('catalogo')
     else:
-        form = UserCreationForm()
-        
-    form.fields['username'].label = "Correo Electrónico"
-    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email', 'autofocus': True})
-    form.fields['username'].help_text = "Requerido. Úsalo para iniciar sesión."
+        form = RegistroUsuarioForm()
         
     return render(request, 'auth/register.html', {'form': form})
 
@@ -111,7 +104,7 @@ def panel_curso_crear(request):
         return redirect('home')
         
     if request.method == 'POST':
-        form = CursoForm(request.POST)
+        form = CursoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Curso creado con éxito.')
@@ -127,7 +120,7 @@ def panel_curso_editar(request, pk):
         
     curso = get_object_or_404(Curso, pk=pk)
     if request.method == 'POST':
-        form = CursoForm(request.POST, instance=curso)
+        form = CursoForm(request.POST, request.FILES, instance=curso)
         if form.is_valid():
             form.save()
             messages.success(request, 'Curso actualizado con éxito.')

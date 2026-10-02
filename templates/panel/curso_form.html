@@ -38,7 +38,6 @@
 </div>
 
 <script>
-    // Agregar clases de bootstrap a los inputs del form
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('input, select, textarea').forEach(el => {
             if(el.type !== 'checkbox' && el.type !== 'hidden') {
@@ -48,6 +47,48 @@
                 el.classList.add('form-check-input');
             }
         });
+        
+        // Lógica de Cupos Ilimitados
+        const inputTotales = document.querySelector('input[name="cupos_totales"]');
+        const inputDisponibles = document.querySelector('input[name="cupos_disponibles"]');
+        
+        if (inputTotales && inputDisponibles) {
+            const container = inputTotales.closest('div.col-md-6');
+            
+            const dropdownHTML = `
+                <div class="col-md-12 mb-3">
+                    <label class="form-label fw-bold text-muted small">¿Cupos Ilimitados?</label>
+                    <select id="select-ilimitados" class="form-select form-control">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforebegin', dropdownHTML);
+            
+            const selectIlimitados = document.getElementById('select-ilimitados');
+            
+            // Inicializar estado
+            if(inputTotales.value === '9999' || inputTotales.value === '999999') {
+                selectIlimitados.value = 'si';
+                inputTotales.closest('.col-md-6').style.display = 'none';
+                inputDisponibles.closest('.col-md-6').style.display = 'none';
+            }
+
+            selectIlimitados.addEventListener('change', function() {
+                if (this.value === 'si') {
+                    inputTotales.value = 9999;
+                    inputDisponibles.value = 9999;
+                    inputTotales.closest('.col-md-6').style.display = 'none';
+                    inputDisponibles.closest('.col-md-6').style.display = 'none';
+                } else {
+                    if(inputTotales.value === '9999') inputTotales.value = '';
+                    if(inputDisponibles.value === '9999') inputDisponibles.value = '';
+                    inputTotales.closest('.col-md-6').style.display = 'block';
+                    inputDisponibles.closest('.col-md-6').style.display = 'block';
+                }
+            });
+        }
     });
 </script>
 {% endblock %}
