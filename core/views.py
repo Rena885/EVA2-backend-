@@ -50,7 +50,7 @@ def carro_view(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        if request.user.perfil.rol == 'COORDINADOR':
+        if request.user.perfil.rol in ['COORDINADOR', 'ADMIN']:
             return redirect('panel')
         return redirect('catalogo')
         
@@ -59,7 +59,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            if user.perfil.rol == 'COORDINADOR':
+            if user.perfil.rol in ['COORDINADOR', 'ADMIN']:
                 # Cierre de sesión por inactividad de 3 minutos
                 request.session.set_expiry(180)
                 return redirect('panel')
@@ -89,7 +89,7 @@ def register_view(request):
 # PANEL DE COORDINADOR
 @login_required
 def panel_view(request):
-    if request.user.perfil.rol != 'COORDINADOR':
+    if request.user.perfil.rol not in ['COORDINADOR', 'ADMIN']:
         return redirect('home')
         
     cursos = Curso.objects.all()
@@ -102,7 +102,7 @@ def panel_view(request):
 
 @login_required
 def panel_curso_crear(request):
-    if request.user.perfil.rol != 'COORDINADOR':
+    if request.user.perfil.rol not in ['COORDINADOR', 'ADMIN']:
         return redirect('home')
         
     if request.method == 'POST':
@@ -117,7 +117,7 @@ def panel_curso_crear(request):
 
 @login_required
 def panel_curso_editar(request, pk):
-    if request.user.perfil.rol != 'COORDINADOR':
+    if request.user.perfil.rol not in ['COORDINADOR', 'ADMIN']:
         return redirect('home')
         
     curso = get_object_or_404(Curso, pk=pk)
@@ -133,7 +133,7 @@ def panel_curso_editar(request, pk):
 
 @login_required
 def panel_curso_eliminar(request, pk):
-    if request.user.perfil.rol != 'COORDINADOR':
+    if request.user.perfil.rol not in ['COORDINADOR', 'ADMIN']:
         return redirect('home')
     curso = get_object_or_404(Curso, pk=pk)
     if request.method == 'POST':
@@ -152,7 +152,7 @@ def mis_cursos(request):
 
 @login_required
 def panel_usuarios(request):
-    if request.user.perfil.rol != 'COORDINADOR':
+    if request.user.perfil.rol not in ['COORDINADOR', 'ADMIN']:
         return redirect('home')
         
     usuarios = User.objects.select_related('perfil').all().order_by('-date_joined')
@@ -160,3 +160,42 @@ def panel_usuarios(request):
 
 def error_404(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def panel_coordinadores(request):
+    if request.user.perfil.rol != 'ADMIN':
+        return redirect('home')
+    from core.models import PerfilUsuario
+    coordinadores = PerfilUsuario.objects.filter(rol='COORDINADOR')
+    return render(request, 'panel/coordinadores.html', {'coordinadores': coordinadores})
+
+@login_required
+def crear_coordinador(request):
+    if request.user.perfil.rol != 'ADMIN':
+        return redirect('home')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.email = user.username
+            user.save()
+            user.perfil.rol = 'COORDINADOR'
+            user.perfil.save()
+            messages.success(request, 'Coordinador creado correctamente.')
+            return redirect('panel_coordinadores')
+    else:
+        form = UserCreationForm()
+        form.fields['username'].label = 'Correo Electrónico'
+        form.fields['username'].widget.attrs.update({'type': 'email'})
+    return render(request, 'panel/crear_coordinador.html', {'form': form})
+
+@login_required
+def eliminar_coordinador(request, pk):
+    if request.user.perfil.rol != 'ADMIN':
+        return redirect('home')
+    from django.contrib.auth.models import User
+    coordinador = get_object_or_404(User, pk=pk)
+    if hasattr(coordinador, 'perfil') and coordinador.perfil.rol == 'COORDINADOR':
+        coordinador.delete()
+        messages.success(request, 'Coordinador eliminado correctamente.')
+    return redirect('panel_coordinadores')

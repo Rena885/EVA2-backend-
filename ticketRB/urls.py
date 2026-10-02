@@ -30,6 +30,9 @@ urlpatterns = [
     path('panel/curso/<int:pk>/editar/', views.panel_curso_editar, name='panel_curso_editar'),
     path('panel/curso/<int:pk>/eliminar/', views.panel_curso_eliminar, name='panel_curso_eliminar'),
     path('panel/usuarios/', views.panel_usuarios, name='panel_usuarios'),
+    path('panel/coordinadores/', views.panel_coordinadores, name='panel_coordinadores'),
+    path('panel/coordinadores/crear/', views.crear_coordinador, name='crear_coordinador'),
+    path('panel/coordinadores/<int:pk>/eliminar/', views.eliminar_coordinador, name='eliminar_coordinador'),
 ]
 
 handler404 = 'core.views.error_404'
