@@ -41,7 +41,7 @@
                     <li class="nav-item ms-3">
                         <a class="nav-link {% if request.resolver_match.url_name == 'metodologia' %}active{% endif %}" href="{% url 'metodologia' %}">Metodología</a>
                     </li>
-                    {% if user.is_authenticated and user.perfil.rol == 'ESTUDIANTE' %}
+                    {% if not user.is_authenticated or user.perfil.rol == 'ESTUDIANTE' %}
                     <li class="nav-item ms-3">
                         <a class="nav-link {% if request.resolver_match.url_name == 'mis_cursos' %}active{% endif %}" href="{% url 'mis_cursos' %}">Mis Cursos</a>
                     </li>

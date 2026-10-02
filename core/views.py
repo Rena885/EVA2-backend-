@@ -77,13 +77,16 @@ def register_view(request):
             user = form.save()
             user.email = user.username
             user.save()
+            # Crear perfil automáticamente
+            from core.models import PerfilUsuario
+            PerfilUsuario.objects.create(user=user, rol='ESTUDIANTE')
             login(request, user)
             return redirect('catalogo')
     else:
         form = UserCreationForm()
         
     form.fields['username'].label = "Correo Electrónico"
-    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email'})
+    form.fields['username'].widget.attrs.update({'placeholder': 'tu@email.com', 'type': 'email', 'autofocus': True})
     form.fields['username'].help_text = "Requerido. Úsalo para iniciar sesión."
         
     return render(request, 'auth/register.html', {'form': form})
