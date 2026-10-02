@@ -185,8 +185,10 @@ def crear_coordinador(request):
             return redirect('panel_coordinadores')
     else:
         form = UserCreationForm()
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control bg-light'})
         form.fields['username'].label = 'Correo Electrónico'
-        form.fields['username'].widget.attrs.update({'type': 'email'})
+        form.fields['username'].widget.attrs.update({'type': 'email', 'placeholder': 'ejemplo@correo.com'})
     return render(request, 'panel/crear_coordinador.html', {'form': form})
 
 @login_required

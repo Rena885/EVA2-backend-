@@ -59,7 +59,7 @@
                 <!-- Right Menu -->
                 <ul class="navbar-nav align-items-center">
                     {% if user.is_authenticated %}
-                        {% if user.perfil.rol == 'COORDINADOR' %}
+                        {% if user.perfil.rol == 'COORDINADOR' or user.perfil.rol == 'ADMIN' %}
                             <li class="nav-item me-3">
                                 <a href="{% url 'panel' %}" class="btn btn-outline-custom btn-sm">Panel Admin</a>
                             </li>
