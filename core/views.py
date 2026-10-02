@@ -49,6 +49,10 @@ def carro_view(request):
     return render(request, 'carro.html')
 
 def login_view(request):
+    if request.GET.get('timeout') == '1':
+        from django.contrib import messages
+        messages.warning(request, 'Tu sesión ha expirado por tiempo de inactividad (3 minutos). Vuelve a iniciar sesión.')
+        
     if request.user.is_authenticated:
         if request.user.perfil.rol in ['COORDINADOR', 'ADMIN']:
             return redirect('panel')

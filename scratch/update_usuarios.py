@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+import os
+
+content = """{% extends 'base.html' %}
 {% block title %}Usuarios Registrados - ticketRB{% endblock %}
 {% block content %}
 <div class="container py-5">
@@ -51,4 +53,7 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock %}"""
+
+with open('templates/panel/usuarios.html', 'w', encoding='utf-8') as f:
+    f.write(content)
