@@ -1,4 +1,4 @@
-
+    
 from rest_framework import permissions
 
 class IsCoordinador(permissions.BasePermission):
@@ -11,7 +11,7 @@ class IsCoordinador(permissions.BasePermission):
         )
 
 
-class IsCoordinadorOrReadOnly(permissions.BasePermission):
+class IsCoordinadorOrReadOnly(permissions.BasePermission):  # RR - MOSTRAR AL PROFESOR: Clase de permiso DRF personalizada para restringir acciones por Rol
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
