@@ -17,7 +17,8 @@ class AreaViewSet(viewsets.ReadOnlyModelViewSet):
     """ViewSet de solo lectura para listar las áreas de conocimiento."""
     queryset = Area.objects.all()
     serializer_class = AreaSerializer
-\nclass CursoViewSet(viewsets.ModelViewSet):
+
+class CursoViewSet(viewsets.ModelViewSet):
     """ViewSet para exponer el CRUD de Cursos. Protegido por rol."""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
