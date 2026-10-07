@@ -29,6 +29,6 @@ urlpatterns = [
     path('mis-matriculas/', views.MisMatriculasView.as_view(), name='mis-matriculas'),
     
     # Docs
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # RR - MOSTRAR AL PROFESOR: Generación de esquema OpenAPI
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # RR - MOSTRAR AL PROFESOR: Swagger UI
 ]
