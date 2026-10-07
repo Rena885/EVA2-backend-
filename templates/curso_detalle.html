@@ -128,7 +128,14 @@
                         </li>
                     </ul>
                     
-                    {% if curso.tipo == 'RELAMPAGO' or curso.cupos_disponibles > 0 %}
+                                        {% if ya_comprado %}
+                        <div class="alert alert-success text-center mb-3 border-0 bg-success bg-opacity-10 text-success">
+                            <i class="bi bi-check-circle-fill me-2"></i><strong>Ya posees este curso</strong>
+                        </div>
+                        <a href="{% url 'mis_cursos' %}" class="btn btn-success w-100 py-3 fw-bold">
+                            Ir a Mis Cursos <i class="bi bi-play-circle-fill ms-1"></i>
+                        </a>
+                    {% elif curso.tipo == 'RELAMPAGO' or curso.cupos_disponibles > 0 %}
                         <form method="POST" action="javascript:void(0);" class="d-grid mb-3">
                             {% csrf_token %}
                             <button type="button" class="btn btn-accent py-3 fw-bold add-to-cart-btn fs-5" data-course-id="{{ curso.id }}">

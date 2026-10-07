@@ -40,9 +40,13 @@ def catalogo(request):
 
 def curso_detalle(request, pk):
     curso = get_object_or_404(Curso, pk=pk)
-    # Recomendaciones: otros cursos de la misma área
     relacionados = Curso.objects.filter(area=curso.area).exclude(pk=curso.pk)[:3]
-    return render(request, 'curso_detalle.html', {'curso': curso, 'relacionados': relacionados})
+    
+    ya_comprado = False
+    if request.user.is_authenticated:
+        ya_comprado = DetalleMatricula.objects.filter(matricula__user=request.user, matricula__estado='PAGADO', curso=curso).exists()
+        
+    return render(request, 'curso_detalle.html', {'curso': curso, 'relacionados': relacionados, 'ya_comprado': ya_comprado})
 
 @login_required
 def carro_view(request):
