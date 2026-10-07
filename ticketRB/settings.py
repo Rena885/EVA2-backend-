@@ -57,7 +57,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ticketRB.wsgi.application'
 
-DATABASES = {  # RR - MOSTRAR AL PROFESOR: Configuración nativa de PostgreSQL
+DATABASES = {  # RR -
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ticketrb_db',
@@ -99,7 +99,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # RR - MOSTRAR AL PROFESOR: Aquí se cambia la duración del JWT
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # RR - 
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'TOKEN_OBTAIN_SERIALIZER': 'api.serializers.CustomTokenObtainPairSerializer',
 }

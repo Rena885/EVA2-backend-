@@ -8,7 +8,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         try:
-            token['rol'] = user.perfil.rol  # RR - MOSTRAR AL PROFESOR: Inyección de Custom Claims (Rol) en el Payload del JWT
+            token['rol'] = user.perfil.rol  # RR -
         except Exception:
             token['rol'] = 'ESTUDIANTE'
         return token

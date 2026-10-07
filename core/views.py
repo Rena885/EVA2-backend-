@@ -53,10 +53,12 @@ def login_view(request):
         from django.contrib import messages
         messages.warning(request, 'Tu sesión ha expirado por tiempo de inactividad (3 minutos). Vuelve a iniciar sesión.')
         
+    next_url = request.GET.get('next')
+    
     if request.user.is_authenticated:
         if request.user.perfil.rol in ['COORDINADOR', 'ADMIN']:
-            return redirect('panel')
-        return redirect('catalogo')
+            return redirect(next_url or 'panel')
+        return redirect(next_url or 'catalogo')
         
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -64,10 +66,9 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             if user.perfil.rol in ['COORDINADOR', 'ADMIN']:
-                # Cierre de sesión por inactividad de 3 minutos
                 request.session.set_expiry(180)
-                return redirect('panel')
-            return redirect('catalogo')
+                return redirect(next_url or 'panel')
+            return redirect(next_url or 'catalogo')
     else:
         form = AuthenticationForm()
         

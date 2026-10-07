@@ -11,7 +11,7 @@ class IsCoordinador(permissions.BasePermission):
         )
 
 
-class IsCoordinadorOrReadOnly(permissions.BasePermission):  # RR - MOSTRAR AL PROFESOR: Clase de permiso DRF personalizada para restringir acciones por Rol
+class IsCoordinadorOrReadOnly(permissions.BasePermission):  # RR - 
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True

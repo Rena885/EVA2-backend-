@@ -16,7 +16,7 @@ class PerfilUsuario(models.Model):
         ('COORDINADOR', 'Coordinador'),
         ('ADMIN', 'Administrador Global'),
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')  # RR - MOSTRAR AL PROFESOR: Relación 1 a 1 para Roles
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')  # RR -
     rol = models.CharField(max_length=20, choices=ROLES, default='ESTUDIANTE')
     ultima_actividad = models.DateTimeField(null=True, blank=True)
 
