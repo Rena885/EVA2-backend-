@@ -24,7 +24,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     permission_classes = [IsCoordinadorOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['area', 'precio_final']
+    filterset_fields = ['area']
     search_fields = ['titulo']
 
 class CarroViewSet(viewsets.ViewSet):

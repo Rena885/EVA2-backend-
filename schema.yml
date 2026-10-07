@@ -1,0 +1,792 @@
+openapi: 3.0.3
+info:
+  title: ticketRB API
+  version: 1.0.0
+  description: API para plataforma EdTech
+paths:
+  /api/areas/:
+    get:
+      operationId: areas_list
+      description: ViewSet de solo lectura para listar las áreas de conocimiento.
+      tags:
+      - areas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+          description: ''
+  /api/areas/{id}/:
+    get:
+      operationId: areas_retrieve
+      description: ViewSet de solo lectura para listar las áreas de conocimiento.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este area.
+        required: true
+      tags:
+      - areas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+          description: ''
+  /api/auth/token/:
+    post:
+      operationId: auth_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomTokenObtainPair'
+          description: ''
+  /api/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/carro/:
+    get:
+      operationId: carro_retrieve
+      description: ViewSet para consultar el Carro de Compras persistente del estudiante.
+      tags:
+      - carro
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/carro/checkout/:
+    post:
+      operationId: carro_checkout_create
+      description: |-
+        Endpoint para procesar el pago. Usa atomic transactions y select_for_update
+        para validar y descontar el stock en tiempo real evitando race conditions.
+      tags:
+      - carro
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/carro/items/:
+    get:
+      operationId: carro_items_list
+      tags:
+      - carro
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemCarro'
+          description: ''
+    post:
+      operationId: carro_items_create
+      tags:
+      - carro
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemCarro'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemCarro'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemCarro'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCarro'
+          description: ''
+  /api/carro/items/{id}/:
+    delete:
+      operationId: carro_items_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - carro
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/cursos/:
+    get:
+      operationId: cursos_list
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      parameters:
+      - in: query
+        name: area
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Curso'
+          description: ''
+    post:
+      operationId: cursos_create
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Curso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Curso'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+          description: ''
+  /api/cursos/{id}/:
+    get:
+      operationId: cursos_retrieve
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este curso.
+        required: true
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+          description: ''
+    put:
+      operationId: cursos_update
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este curso.
+        required: true
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Curso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Curso'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+          description: ''
+    patch:
+      operationId: cursos_partial_update
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este curso.
+        required: true
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCurso'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCurso'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCurso'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+          description: ''
+    delete:
+      operationId: cursos_destroy
+      description: ViewSet para exponer el CRUD de Cursos. Protegido por rol.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este curso.
+        required: true
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/matriculas/{id}/cancelar/:
+    post:
+      operationId: matriculas_cancelar_create
+      description: Endpoint para cancelar una orden y reponer automáticamente los
+        cupos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - matriculas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/mis-matriculas/:
+    get:
+      operationId: mis_matriculas_list
+      tags:
+      - mis-matriculas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Matricula'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    Area:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - nombre
+    Curso:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        precio_final:
+          type: string
+          readOnly: true
+        area:
+          allOf:
+          - $ref: '#/components/schemas/Area'
+          readOnly: true
+        imagen_url:
+          type: string
+          readOnly: true
+        titulo:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        tipo:
+          $ref: '#/components/schemas/TipoEnum'
+        precio_original:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+        descuento_porcentaje:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        cupos_totales:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        cupos_disponibles:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        nivel:
+          type: string
+          nullable: true
+          maxLength: 50
+        semanas_duracion:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        cantidad_cursos:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        duracion_horas:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,1})?$
+          nullable: true
+        duracion_minutos:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        imagen:
+          type: string
+          format: uri
+          nullable: true
+          description: Sube una imagen desde tu equipo
+      required:
+      - area
+      - cupos_disponibles
+      - cupos_totales
+      - descripcion
+      - id
+      - imagen_url
+      - precio_final
+      - precio_original
+      - titulo
+    CustomTokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    EstadoEnum:
+      enum:
+      - PENDIENTE
+      - PAGADO
+      - CANCELADO
+      type: string
+      description: |-
+        * `PENDIENTE` - Pendiente
+        * `PAGADO` - Pagado
+        * `CANCELADO` - Cancelado
+    ItemCarro:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        curso:
+          allOf:
+          - $ref: '#/components/schemas/Curso'
+          readOnly: true
+        curso_id:
+          type: integer
+          writeOnly: true
+        agregado_en:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - agregado_en
+      - curso
+      - curso_id
+      - id
+    Matricula:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        fecha:
+          type: string
+          format: date-time
+          readOnly: true
+        costo_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+        user:
+          type: integer
+      required:
+      - costo_total
+      - fecha
+      - id
+      - user
+    PatchedCurso:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        precio_final:
+          type: string
+          readOnly: true
+        area:
+          allOf:
+          - $ref: '#/components/schemas/Area'
+          readOnly: true
+        imagen_url:
+          type: string
+          readOnly: true
+        titulo:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        tipo:
+          $ref: '#/components/schemas/TipoEnum'
+        precio_original:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+        descuento_porcentaje:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        cupos_totales:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        cupos_disponibles:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        nivel:
+          type: string
+          nullable: true
+          maxLength: 50
+        semanas_duracion:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        cantidad_cursos:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        duracion_horas:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,1})?$
+          nullable: true
+        duracion_minutos:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        imagen:
+          type: string
+          format: uri
+          nullable: true
+          description: Sube una imagen desde tu equipo
+    TipoEnum:
+      enum:
+      - CARRERA
+      - RELAMPAGO
+      type: string
+      description: |-
+        * `CARRERA` - Carrera/Bootcamp
+        * `RELAMPAGO` - Curso Relámpago
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

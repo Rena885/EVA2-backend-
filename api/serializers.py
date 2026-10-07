@@ -43,10 +43,6 @@ class CarroMatriculaSerializer(serializers.ModelSerializer):
         model = CarroMatricula
         fields = ['id', 'creado_en', 'items']
 
-class AreaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Area
-        fields = '__all__'
 
 class MatriculaSerializer(serializers.ModelSerializer):
     class Meta:
