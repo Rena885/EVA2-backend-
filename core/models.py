@@ -3,12 +3,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Area(models.Model):
+    """Modelo que representa un Área de Conocimiento."""
     nombre = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
         return self.nombre
 
 class PerfilUsuario(models.Model):
+    """Modelo 1 a 1 con User para manejar roles y tracking de actividad."""
     ROLES = (
         ('ESTUDIANTE', 'Estudiante'),
         ('COORDINADOR', 'Coordinador'),
@@ -22,6 +24,7 @@ class PerfilUsuario(models.Model):
         return f"{self.user.username} - {self.rol}"
 
 class Curso(models.Model):
+    """Modelo que representa un Curso o Bootcamp disponible en la plataforma."""
     TIPO_CHOICES = (
         ('CARRERA', 'Carrera/Bootcamp'),
         ('RELAMPAGO', 'Curso Relámpago'),
@@ -61,10 +64,12 @@ class Curso(models.Model):
         return self.titulo
 
 class CarroMatricula(models.Model):
+    """Modelo que representa el carro de compras persistente por usuario."""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='carro')
     creado_en = models.DateTimeField(auto_now_add=True)
 
 class ItemCarro(models.Model):
+    """Modelo intermedio para guardar los cursos seleccionados en un carro."""
     carro = models.ForeignKey(CarroMatricula, on_delete=models.CASCADE, related_name='items')
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     agregado_en = models.DateTimeField(auto_now_add=True)
@@ -73,6 +78,7 @@ class ItemCarro(models.Model):
         unique_together = ('carro', 'curso')
 
 class Matricula(models.Model):
+    """Modelo que representa la orden/transacción histórica (Checkout)."""
     ESTADOS = (
         ('PENDIENTE', 'Pendiente'),
         ('PAGADO', 'Pagado'),
@@ -91,6 +97,7 @@ class Matricula(models.Model):
         return f"Matricula {self.codigo} - {self.user.username}"
 
 class DetalleMatricula(models.Model):
+    """Modelo para registrar el precio histórico de cada curso al pagar."""
     matricula = models.ForeignKey(Matricula, on_delete=models.CASCADE, related_name='detalles')
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
     precio_pagado = models.DecimalField(max_digits=10, decimal_places=0)

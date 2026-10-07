@@ -1,3 +1,5 @@
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
@@ -5,15 +7,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from core.models import Curso, CarroMatricula, ItemCarro, Matricula, DetalleMatricula
+from core.models import Curso, CarroMatricula, ItemCarro, Matricula, DetalleMatricula, Area
 from .serializers import CursoSerializer, CarroMatriculaSerializer, ItemCarroSerializer
-from .permissions import IsCoordinador
+from .permissions import IsCoordinador, IsCoordinadorOrReadOnly
 
-class CursoViewSet(viewsets.ReadOnlyModelViewSet):
+
+from .serializers import AreaSerializer
+class AreaViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet de solo lectura para listar las áreas de conocimiento."""
+    queryset = Area.objects.all()
+    serializer_class = AreaSerializer
+\nclass CursoViewSet(viewsets.ModelViewSet):
+    """ViewSet para exponer el CRUD de Cursos. Protegido por rol."""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+    permission_classes = [IsCoordinadorOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['area', 'precio_final']
+    search_fields = ['titulo']
 
 class CarroViewSet(viewsets.ViewSet):
+    """ViewSet para consultar el Carro de Compras persistente del estudiante."""
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
@@ -45,6 +59,10 @@ class ItemCarroDetailView(generics.DestroyAPIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def checkout(request):
+    """
+    Endpoint para procesar el pago. Usa atomic transactions y select_for_update
+    para validar y descontar el stock en tiempo real evitando race conditions.
+    """
     user = request.user
     carro = get_object_or_404(CarroMatricula, user=user)
     items = carro.items.all()
@@ -93,6 +111,7 @@ def checkout(request):
 @api_view(['POST'])
 @permission_classes([IsCoordinador])
 def cancelar_matricula(request, pk):
+    """Endpoint para cancelar una orden y reponer automáticamente los cupos."""
     try:
         with transaction.atomic():
             matricula = get_object_or_404(Matricula.objects.select_for_update(), pk=pk)
@@ -111,3 +130,11 @@ def cancelar_matricula(request, pk):
         return Response({'detail': 'Matrícula cancelada y cupos repuestos.'})
     except Exception as e:
         return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+from .serializers import MatriculaSerializer
+class MisMatriculasView(generics.ListAPIView):
+    serializer_class = MatriculaSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return Matricula.objects.filter(user=self.request.user)

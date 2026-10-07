@@ -7,6 +7,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'cursos', views.CursoViewSet)
+router.register(r'areas', views.AreaViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -23,6 +24,9 @@ urlpatterns = [
     
     # Panel Admin
     path('matriculas/<int:pk>/cancelar/', views.cancelar_matricula, name='cancelar-matricula'),
+    
+    # Mis Matriculas
+    path('mis-matriculas/', views.MisMatriculasView.as_view(), name='mis-matriculas'),
     
     # Docs
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
