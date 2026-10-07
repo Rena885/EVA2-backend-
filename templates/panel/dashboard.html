@@ -9,6 +9,7 @@
             <p class="text-muted mb-0">Gestión de cursos y matrículas</p>
         </div>
         <div>
+            <a href="/api/docs/" target="_blank" class="btn btn-outline-success me-2"><i class="bi bi-file-earmark-code me-2"></i>API Docs</a>
             {% if request.user.perfil.rol == 'ADMIN' %}
             <a href="{% url 'panel_coordinadores' %}" class="btn btn-outline-danger me-2"><i class="bi bi-shield-lock me-2"></i>Coordinadores</a>
             {% endif %}
