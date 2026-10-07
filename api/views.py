@@ -47,7 +47,9 @@ class ItemCarroView(generics.ListCreateAPIView):
         carro, _ = CarroMatricula.objects.get_or_create(user=self.request.user)
         curso = serializer.validated_data['curso']
         if ItemCarro.objects.filter(carro=carro, curso=curso).exists():
-            raise serializers.ValidationError({"detail": "El curso ya está en el carro."})
+            raise serializers.ValidationError({"detail": "Ya tienes el curso en el carrito."})
+        if DetalleMatricula.objects.filter(matricula__user=self.request.user, matricula__estado='PAGADO', curso=curso).exists():
+            raise serializers.ValidationError({"detail": "Ya has comprado este curso anteriormente."})
         serializer.save(carro=carro)
 
 class ItemCarroDetailView(generics.DestroyAPIView):

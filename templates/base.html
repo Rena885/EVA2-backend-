@@ -197,13 +197,14 @@
                             updateCartCounter(cartData.items.length);
                         }
                     } else if (response.status === 400) {
-                        showToast('Ya tienes el curso en el carrito', 'warning');
-                    } else {
-                        showToast('Error al agregar al carrito', 'error');
-                    }
-                } catch (error) {
-                    showToast('Ya tienes el curso en el carrito', 'warning');
-                } finally {
+                          let msg = data.detail ? (Array.isArray(data.detail) ? data.detail[0] : data.detail) : 'Ya tienes el curso en el carrito';
+                          showToast(msg, 'warning');
+                      } else {
+                          showToast('Error al agregar al carrito', 'error');
+                      }
+                  } catch (error) {
+                      showToast('Error de conexión', 'error');
+                  } finally {
                     btn.disabled = false;
                     btn.innerHTML = 'En el carrito <i class="bi bi-cart-check ms-1"></i>';
                 }
