@@ -16,7 +16,11 @@ class PerfilUsuario(models.Model):
         ('COORDINADOR', 'Coordinador'),
         ('ADMIN', 'Administrador Global'),
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')  # RR - Relación 1:1: Vincula el User nativo de Django con nuestro Perfil (para asignarle un Rol).
+    """
+    RR -Relación 1:1: Vincula el User nativo de Django con
+    nuestro Perfil (para asignarle un Rol).
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     rol = models.CharField(max_length=20, choices=ROLES, default='ESTUDIANTE')
     ultima_actividad = models.DateTimeField(null=True, blank=True)
 
