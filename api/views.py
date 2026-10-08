@@ -22,8 +22,8 @@ class CursoViewSet(viewsets.ModelViewSet):
     """ViewSet para exponer el CRUD de Cursos. Protegido por rol."""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
-    permission_classes = [IsCoordinadorOrReadOnly]  # RR -
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]  # RR -  
+    permission_classes = [IsCoordinadorOrReadOnly]  # RR - Seguridad API: Protege la vista aplicando nuestro permiso IsCoordinadorOrReadOnly.
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]  # RR - Filtros API: habilita búsqueda exacta por área y texto por título.
     filterset_fields = ['area']
     search_fields = ['titulo']
 
@@ -32,7 +32,7 @@ class CarroViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        carro, _ = CarroMatricula.objects.get_or_create(user=request.user)  # RR - 
+        carro, _ = CarroMatricula.objects.get_or_create(user=request.user)  # RR - Lógica Carro: Si el usuario tenía ítems de una sesión previa en BD, los recupera intactos.
         serializer = CarroMatriculaSerializer(carro)
         return Response(serializer.data)
 
@@ -74,12 +74,12 @@ def checkout(request):
         return Response({'detail': 'El carro está vacío.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        with transaction.atomic():  # RR - 
+        with transaction.atomic():  # RR - Transacción: Agrupa todo. Si algo falla (ej. sin stock), hace rollback total y nada se cobra a medias.
             costo_total = 0
             # Validar cupos y calcular total (NO STOCK HOARDING)
             for item in items:
                 # Select for update para prevenir condiciones de carrera
-                curso = Curso.objects.select_for_update().get(id=item.curso.id)  # RR -
+                curso = Curso.objects.select_for_update().get(id=item.curso.id)  # RR - Stock Atómico: Bloquea la fila. Evita sobrecupos si 2 compran al mismo milisegundo.
                 if curso.cupos_disponibles <= 0:
                     raise ValueError(f'¡Atención! El curso "{curso.titulo}" que deseas en el carrito ya no está disponible debido a compras de otros clientes.')
                 costo_total += curso.precio_final
@@ -93,7 +93,7 @@ def checkout(request):
             
             # Procesar items
             for item in items:
-                curso = Curso.objects.select_for_update().get(id=item.curso.id)  # RR -
+                curso = Curso.objects.select_for_update().get(id=item.curso.id)  # RR - Stock Atómico: Bloquea la fila. Evita sobrecupos si 2 compran al mismo milisegundo.
                 curso.cupos_disponibles -= 1
                 curso.save()
                 
@@ -116,7 +116,7 @@ def checkout(request):
 def cancelar_matricula(request, pk):
     """Endpoint para cancelar una orden y reponer automáticamente los cupos."""
     try:
-        with transaction.atomic():  # RR -
+        with transaction.atomic():  # RR - Transacción: Agrupa todo. Si algo falla (ej. sin stock), hace rollback total y nada se cobra a medias.
             matricula = get_object_or_404(Matricula.objects.select_for_update(), pk=pk)
             if matricula.estado == 'CANCELADO':
                 return Response({'detail': 'Ya está cancelada.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -127,7 +127,7 @@ def cancelar_matricula(request, pk):
             # Reponer stock
             for detalle in matricula.detalles.all():
                 curso = Curso.objects.select_for_update().get(id=detalle.curso.id)
-                curso.cupos_disponibles += 1  # RR - 
+                curso.cupos_disponibles += 1  # RR - Reposición Stock: Si se cancela la orden, devuelve el cupo disponible.
                 curso.save()
                 
         return Response({'detail': 'Matrícula cancelada y cupos repuestos.'})

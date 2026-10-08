@@ -11,7 +11,7 @@ class IsCoordinador(permissions.BasePermission):
         )
 
 
-class IsCoordinadorOrReadOnly(permissions.BasePermission):  # RR - 
+class IsCoordinadorOrReadOnly(permissions.BasePermission):  # RR - Permisos RBAC: Permiso personalizado. Bloquea peticiones destructivas si no es COORDINADOR.
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True

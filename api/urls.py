@@ -29,6 +29,6 @@ urlpatterns = [
     path('mis-matriculas/', views.MisMatriculasView.as_view(), name='mis-matriculas'),
     
     # Docs
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # RR - 
-    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # RR - 
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # RR - OpenAPI: Auto-genera el esquema JSON estándar.
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # RR - Swagger UI: Interfaz interactiva /api/docs/ para testear.
 ]
