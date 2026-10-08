@@ -22,11 +22,11 @@ class CursoViewSet(viewsets.ModelViewSet):
     """ViewSet para exponer el CRUD de Cursos. Protegido por rol."""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
-        """
+    """
     RR - Seguridad API: Protege este endpoint con la barrera IsCoordinadorOrReadOnly.
     """
     permission_classes = [IsCoordinadorOrReadOnly]
-        """
+    """
     RR - Filtros y Búsqueda: ¿Qué es? Permite buscar cursos por ID exacto (?area=1) o texto (?search=Java) sin descargar toda la DB.
     """
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -38,7 +38,7 @@ class CarroViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-                """
+        """
         RR - Lógica Carro Persistente: get_or_create consulta la BD. Así recupera los ítems si venían de ayer.
         """
         carro, _ = CarroMatricula.objects.get_or_create(user=request.user)
@@ -83,7 +83,7 @@ def checkout(request):
         return Response({'detail': 'El carro está vacío.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-                """
+        """
         RR - Ciclo Transaccional (.atomic): ¿Qué es? Regla del Todo o Nada. Si el pago o descuento falla, rebobina todo (Rollback).
         """
         with transaction.atomic():
@@ -91,7 +91,7 @@ def checkout(request):
             # Validar cupos y calcular total (NO STOCK HOARDING)
             for item in items:
                 # Select for update para prevenir condiciones de carrera
-                                """
+                """
                 RR - Stock Atómico: ¿Qué es? Bloquea la fila en PostgreSQL. Si 2 compran el último cupo, frena a uno para evitar sobreventas.
                 """
                 curso = Curso.objects.select_for_update().get(id=item.curso.id)
@@ -108,7 +108,7 @@ def checkout(request):
             
             # Procesar items
             for item in items:
-                                """
+                """
                 RR - Stock Atómico: ¿Qué es? Bloquea la fila en PostgreSQL. Si 2 compran el último cupo, frena a uno para evitar sobreventas.
                 """
                 curso = Curso.objects.select_for_update().get(id=item.curso.id)
@@ -134,7 +134,7 @@ def checkout(request):
 def cancelar_matricula(request, pk):
     """Endpoint para cancelar una orden y reponer automáticamente los cupos."""
     try:
-                """
+        """
         RR - Ciclo Transaccional (.atomic): ¿Qué es? Regla del Todo o Nada. Si el pago o descuento falla, rebobina todo (Rollback).
         """
         with transaction.atomic():
@@ -148,7 +148,7 @@ def cancelar_matricula(request, pk):
             # Reponer stock
             for detalle in matricula.detalles.all():
                 curso = Curso.objects.select_for_update().get(id=detalle.curso.id)
-                                """
+                """
                 RR - Reposición: Si se cancela la orden, devuelve el cupo.
                 """
                 curso.cupos_disponibles += 1
