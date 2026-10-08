@@ -22,14 +22,12 @@ class CursoViewSet(viewsets.ModelViewSet):
     """ViewSet para exponer el CRUD de Cursos. Protegido por rol."""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
-    """
-    RR -Seguridad API: Protege la vista aplicando nuestro
-    permiso IsCoordinadorOrReadOnly.
+        """
+    RR - Seguridad API: Protege este endpoint con la barrera IsCoordinadorOrReadOnly.
     """
     permission_classes = [IsCoordinadorOrReadOnly]
-    """
-    RR -Filtros API: habilita búsqueda exacta por área y texto
-    por título.
+        """
+    RR - Filtros y Búsqueda: ¿Qué es? Permite buscar cursos por ID exacto (?area=1) o texto (?search=Java) sin descargar toda la DB.
     """
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['area']
@@ -40,9 +38,8 @@ class CarroViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        """
-        RR -Lógica Carro: Si el usuario tenía ítems de una sesión
-        previa en BD, los recupera intactos.
+                """
+        RR - Lógica Carro Persistente: get_or_create consulta la BD. Así recupera los ítems si venían de ayer.
         """
         carro, _ = CarroMatricula.objects.get_or_create(user=request.user)
         serializer = CarroMatriculaSerializer(carro)
@@ -86,18 +83,16 @@ def checkout(request):
         return Response({'detail': 'El carro está vacío.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        """
-        RR -Transacción: Agrupa todo. Si algo falla (ej. sin stock),
-        hace rollback total y nada se cobra a medias.
+                """
+        RR - Ciclo Transaccional (.atomic): ¿Qué es? Regla del Todo o Nada. Si el pago o descuento falla, rebobina todo (Rollback).
         """
         with transaction.atomic():
             costo_total = 0
             # Validar cupos y calcular total (NO STOCK HOARDING)
             for item in items:
                 # Select for update para prevenir condiciones de carrera
-                """
-                RR -Stock Atómico: Bloquea la fila. Evita sobrecupos si 2
-                compran al mismo milisegundo.
+                                """
+                RR - Stock Atómico: ¿Qué es? Bloquea la fila en PostgreSQL. Si 2 compran el último cupo, frena a uno para evitar sobreventas.
                 """
                 curso = Curso.objects.select_for_update().get(id=item.curso.id)
                 if curso.cupos_disponibles <= 0:
@@ -113,9 +108,8 @@ def checkout(request):
             
             # Procesar items
             for item in items:
-                """
-                RR -Stock Atómico: Bloquea la fila. Evita sobrecupos si 2
-                compran al mismo milisegundo.
+                                """
+                RR - Stock Atómico: ¿Qué es? Bloquea la fila en PostgreSQL. Si 2 compran el último cupo, frena a uno para evitar sobreventas.
                 """
                 curso = Curso.objects.select_for_update().get(id=item.curso.id)
                 curso.cupos_disponibles -= 1
@@ -140,9 +134,8 @@ def checkout(request):
 def cancelar_matricula(request, pk):
     """Endpoint para cancelar una orden y reponer automáticamente los cupos."""
     try:
-        """
-        RR -Transacción: Agrupa todo. Si algo falla (ej. sin stock),
-        hace rollback total y nada se cobra a medias.
+                """
+        RR - Ciclo Transaccional (.atomic): ¿Qué es? Regla del Todo o Nada. Si el pago o descuento falla, rebobina todo (Rollback).
         """
         with transaction.atomic():
             matricula = get_object_or_404(Matricula.objects.select_for_update(), pk=pk)
@@ -155,9 +148,8 @@ def cancelar_matricula(request, pk):
             # Reponer stock
             for detalle in matricula.detalles.all():
                 curso = Curso.objects.select_for_update().get(id=detalle.curso.id)
-                """
-                RR -Reposición Stock: Si se cancela la orden, devuelve el
-                cupo disponible.
+                                """
+                RR - Reposición: Si se cancela la orden, devuelve el cupo.
                 """
                 curso.cupos_disponibles += 1
                 curso.save()

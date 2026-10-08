@@ -12,8 +12,7 @@ class IsCoordinador(permissions.BasePermission):
 
 
 """
-RR -Permisos RBAC: Permiso personalizado. Bloquea peticiones
-destructivas si no es COORDINADOR.
+RR - Permisos (RBAC): ¿Qué es? Barrera de seguridad de DRF. Lee el token JWT y si no eres Coordinador, te prohíbe crear cursos.
 """
 class IsCoordinadorOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):

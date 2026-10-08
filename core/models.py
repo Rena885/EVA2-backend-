@@ -16,9 +16,8 @@ class PerfilUsuario(models.Model):
         ('COORDINADOR', 'Coordinador'),
         ('ADMIN', 'Administrador Global'),
     )
-    """
-    RR -Relación 1:1: Vincula el User nativo de Django con
-    nuestro Perfil (para asignarle un Rol).
+        """
+    RR - Relación 1:1: ¿Qué es? Es un vínculo exclusivo. Un Usuario nativo de Django solo puede tener un único PerfilUsuario.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     rol = models.CharField(max_length=20, choices=ROLES, default='ESTUDIANTE')

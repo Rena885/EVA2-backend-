@@ -103,8 +103,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    # RR -JWT: Usamos SimpleJWT. Aquí se configura la vida del
-    # Access Token (60 min).
+    # RR - JWT: ¿Qué es? JSON Web Token es una "pulsera" criptográfica para entrar a la API sin gastar RAM del servidor. Aquí se configura su vida (60 min).
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'TOKEN_OBTAIN_SERIALIZER': 'api.serializers.CustomTokenObtainPairSerializer',
