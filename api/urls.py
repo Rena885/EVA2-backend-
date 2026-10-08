@@ -13,8 +13,8 @@ urlpatterns = [
     path('', include(router.urls)),
     
     # Auth
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), #RR
+    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), #RR
     
     # Carro
     path('carro/', views.CarroViewSet.as_view({'get': 'list'}), name='carro-list'),
@@ -29,6 +29,6 @@ urlpatterns = [
     path('mis-matriculas/', views.MisMatriculasView.as_view(), name='mis-matriculas'),
     
     # Docs
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # RR - MOSTRAR AL PROFESOR: Generación de esquema OpenAPI
-    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # RR - MOSTRAR AL PROFESOR: Swagger UI
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # RR - 
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # RR - 
 ]

@@ -78,7 +78,7 @@ class ItemCarro(models.Model):
         unique_together = ('carro', 'curso')
 
 class Matricula(models.Model):
-    """Modelo que representa la orden/transacción histórica (Checkout)."""
+    """Modelo que representa la orden/transacción histórica (Checkout).""" #RR -
     ESTADOS = (
         ('PENDIENTE', 'Pendiente'),
         ('PAGADO', 'Pagado'),
