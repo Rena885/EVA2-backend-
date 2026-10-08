@@ -58,8 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ticketRB.wsgi.application'
 
 """
-RR -PostgreSQL: Conexión nativa. Usamos motor postgresql y
-pasamos credenciales (usuario/pass).
+RR - BD: ¿Qué es? Es la conexión física al motor local. Usamos django.db.backends.postgresql con credenciales.
 """
 DATABASES = {
     'default': {

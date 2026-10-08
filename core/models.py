@@ -16,7 +16,7 @@ class PerfilUsuario(models.Model):
         ('COORDINADOR', 'Coordinador'),
         ('ADMIN', 'Administrador Global'),
     )
-        """
+    """
     RR - Relación 1:1: ¿Qué es? Es un vínculo exclusivo. Un Usuario nativo de Django solo puede tener un único PerfilUsuario.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
@@ -68,6 +68,9 @@ class Curso(models.Model):
 
 class CarroMatricula(models.Model):
     """Modelo que representa el carro de compras persistente por usuario."""
+    """
+    RR - Carro Persistente: ¿Qué es? Es un carro que no vive en cookies temporales, sino en una tabla real de PostgreSQL atado 1 a 1 al Usuario.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='carro')
     creado_en = models.DateTimeField(auto_now_add=True)
 
@@ -82,6 +85,9 @@ class ItemCarro(models.Model):
 
 class Matricula(models.Model):
     """Modelo que representa la orden/transacción histórica (Checkout).""" #RR -
+    """
+    RR - CHOICES: ¿Qué es? Es una regla estricta a nivel de Base de Datos. Evita que escriban estados inventados como "Patata", forzando a elegir opciones predefinidas.
+    """
     ESTADOS = (
         ('PENDIENTE', 'Pendiente'),
         ('PAGADO', 'Pagado'),

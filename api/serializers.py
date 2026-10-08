@@ -12,7 +12,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             RR -JWT Custom Claim: Sobrescribimos get_token para inyectar
             el ROL en el token.
             """
-            token['rol'] = user.perfil.rol
+            token['rol'] = user.perfil.rol  # RR - Custom Claims: ¿Qué es? Es inyectar datos (como el ROL) dentro del Payload del JWT, para no re-consultar la DB.
         except Exception:
             token['rol'] = 'ESTUDIANTE'
         return token
