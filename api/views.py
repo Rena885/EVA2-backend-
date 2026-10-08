@@ -1,7 +1,7 @@
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status, generics, serializers
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
